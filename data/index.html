@@ -1,0 +1,760 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>My FM Radio - PS</title>
+	
+	<link href="radio.css" type="text/css" rel="stylesheet">
+	<script src="radio.js" type="text/javascript"></script>
+	<style type="text/css">
+	html, body {
+		margin:0;
+		padding:0;
+		overflow-x: hidden;
+		background: #000000;
+	}
+	body {
+		top: 0px;
+		left: 186px;
+		background: url('/bg/1.webp') no-repeat center fixed rgb(0, 0, 0);
+		background-repeat: no-repeat;
+		background-size: auto;
+		border-width: 4px;
+		border-color: rgb(255, 255, 255);
+		transition: all 1s;
+	}
+	i {
+		cursor: pointer;
+	}
+	i:hover {
+		color: #ffeb3b;
+	}
+	i:active {
+		color: #ffffff;
+	}
+
+	@media screen and (max-device-width:800px), screen and (max-width:800px) {
+		.playbox, .setupbox {
+			width: 100%;
+			height: 190px;
+			margin: auto;
+			margin-top: 40%;
+		}
+	}
+	@media screen and (max-device-width:1280px), screen and (max-width:1280px) {
+		.playbox, .setupbox {
+			width: 90%;
+			height: 190px;
+			margin: auto;
+			margin-top: 20%;
+		}
+	}
+	@media screen and (max-device-width:1920px), screen and (max-width:1920px) {
+		.playbox, .setupbox {
+			width: 80%;
+			height: 190px;
+			margin: auto;
+			margin-top: 30%;
+		}
+	}
+
+	.ui-slider.ui-slider-horizontal {
+		background: url('/sliderbg.png') no-repeat center rgb(0, 0, 0);
+		background-repeat: no-repeat;
+		background-size: cover;
+		height:70px;
+		border:none;
+	}
+	.ui-slider .ui-slider-handle {
+		display: none;
+	}
+	.ui-slider .ui-slider-range {
+		padding-top: 40px;
+		background: #ffc107ad;
+		height:12px;
+		cursor:alias;
+	}
+
+	.menubox {
+		color: #f6f8f9;
+		font-size: 60px;
+		position: absolute;
+		margin: 0;
+		top: 0;
+		right: 1%;
+		margin-top: 10px;
+		overflow:hidden;
+	}
+	.playbox, .setupbox {
+		align-content: center;
+		background: #333333;
+		border-color: rgb(51 46 46);
+		border-width: 2px;
+		border-style: outset;
+		border-right: none;
+		border-top: none;
+		overflow:hidden;
+	}
+	.setupbox {
+		display: none;
+	}
+	.rdsbox {
+		width: 80%;
+		height: auto;
+		align-content: center;
+		margin: auto;
+		margin-top: 20px;
+		background: tomato;
+		padding: 10px 0px;
+		border-width: 2px;
+		border-style: outset;
+		border-color: rgb(51 46 46);
+		font-family: cursive;
+		overflow:hidden;
+		display: none;
+	}
+	.listbox {
+		width: 80%;
+		height: 100px;
+		align-content: center;
+		background: transparent;
+		margin: auto;
+		margin-top: 20px;
+	}
+	.ximage {
+		background: url('/logo/noimageavailable.gif') center top / cover no-repeat rgb(255 255 255);
+		border-width: 4px;
+		border-color: #cccccc;
+		width: 120px;
+		height: 120px;
+		border-radius: 150px;
+		border-style: outset;
+		-webkit-border-radius: 150px;
+		transition: all 1s;
+		margin-top: 20%;
+		display: inline-block;
+	}
+	.freq {
+		color: bisque;
+		font-size: 88px;
+		font-stretch: extra-expanded;
+		font-family: fantasy;
+		width: 250px;
+		margin-top: 9%;
+		display: inline-block;
+		overflow: hidden;
+	}
+	.title {
+		color: #fff000;
+		font-size: 42px;
+		font-family: fantasy;
+		display: inline-block;
+		margin-top: 25px;
+		overflow: hidden;
+	}
+	.desc {
+		color: #cccccc;
+		font-size: x-large;
+		font-family: monospace;
+		display: inline-block;
+		overflow: hidden;
+	}
+	.ctrl {
+		color: bisque;
+		margin-right: 20px;
+		font-size: 40px;
+		display: inline-block;
+		margin: 0 0 0 0;
+		overflow: hidden;
+	}
+	.chanells {
+
+	}
+	.chanell {
+		padding: 10px;
+		background: antiquewhite;
+		border-width: 2px;
+		border-color: #cccccc;
+		border-radius: 25px;
+		border-style: outset;
+		-webkit-border-radius: 25px;
+		margin-inline-end: 5px;
+		font-family: cursive;
+	}
+	.chanell:hover,
+	.chanell:focus {
+		color: #e53935;
+		outline: none;
+		background: #ffeb3b;
+	}
+	.settings {
+
+	}
+	.settings_ctrl {
+		font-size: 40px;
+		color: aliceblue;
+		display: inline-block;
+		overflow: hidden;
+	}
+	.settings_tune {
+		font-size: 55px;
+		margin: 10px 0;
+		color: aliceblue;
+		display: inline-block;
+		overflow: hidden;
+	}
+	.settings_update {
+		font-size: 65px;
+		color: aliceblue;
+		background: #4CAF50;
+		margin: 10px 0px 10px 5px;
+		display: inline-block;
+		overflow: hidden;
+	}
+	.settings_save {
+		font-size: 65px;
+		color: aliceblue;
+		background: #F57C00;
+		margin: 10px 0;
+		display: inline-block;
+		overflow: hidden;
+	}
+	.settings_delete {
+		font-size: 65px;
+		color: aliceblue;
+		background: #C62828;
+		margin: 10px 0;
+		display: inline-block;
+		overflow: hidden;
+	}
+	.settings_scan {
+		font-size: 65px;
+		color: aliceblue;
+		background: #F44336;
+		margin: 10px 0;
+		display: inline-block;
+		overflow: hidden;
+	}
+	.settings_freq {
+		color: bisque;
+		font-size: 88px;
+		font-stretch: extra-expanded;
+		font-family: fantasy;
+		display: inline-block;
+		overflow: hidden;
+	}
+	.settings_mhz {
+		color: bisque;
+		font-size: 48px;
+		font-stretch: extra-expanded;
+		font-family: fantasy;
+		display: inline-block;
+		overflow: hidden;
+	}
+	#bannerbg {
+		clear:both;
+		margin-bottom:0px;
+	}
+	#closed {
+		position: absolute;
+		left: 85%;
+		margin-top: 3px;
+	}
+
+	</style>
+	</head>
+	
+	<body>
+
+		<div>
+			<div id="bannerbg">
+				
+				<div class="menubox">
+					<div class="settings_ctrl">
+						<div style="padding: 10px;">
+							<i id="toggler" class="icon-menu"></i>
+							<i id="favlist" class="icon-heartbeat" style="color: coral;"></i>
+							<i id="loadjson" class="icon-signal"></i>
+							<i id="autotune" class="icon-gauge-1" style="color: aquamarine;"></i>
+						</div>
+					</div>
+					<div class="settings_ctrl">
+						<div style="padding: 10px;">
+							<i id="bgprev" class="icon-left-open-big" style="color: #03A9F4;"></i>
+							<i id="bgpause" class="icon-pause" style="color: #03A9F4;"></i>
+							<i id="bgnext" class="icon-right-open-big" style="color: #03A9F4;"></i>
+						</div>
+					</div>
+					<div class="settings_ctrl">
+						<div style="padding: 10px;">
+							<i class="icon-itunes"></i>
+							<i class="icon-volume-down"></i>
+							<i class="icon-volume-up"></i>
+						</div>
+					</div>
+				</div>
+				<div class="playbox">
+					<table border=0 width="96%">
+						<tr>
+							<td rowspan="3" width="140px" style="text-align: -webkit-center;">
+								<div style="display: inline-block;">
+									<span id="ximage" class="ximage"></span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 280px; text-align: -webkit-center;">
+								<div style="display: inline-block;">
+									<div id="freq_p" class="freq">00.0</div>
+								</div>
+							</td>
+							<td colspan="2">
+								<div style="display: inline-block;">
+									<span id="title" class="title">
+										<i class="icon-spin1 animate-spin"></i>
+									</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div style="display: inline-block;">
+									<span class="desc">Wait..</span>
+								</div>
+							</td>
+							<td style="text-align: end;">
+								<div style="display: inline-block;">
+									<span class="ctrl">
+										<i class="icon-fast-bw"></i>
+										<i class="icon-heart" style="color: coral;"></i>
+										<i class="icon-fast-fw"></i>
+									</span>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="setupbox">
+					<div>
+						<div id="tune"></div>
+						<div style="display: inline-block;">
+							<span class="settings_update">
+								<div style="padding: 20px;">
+									<i class="icon-download"></i>
+								</div>
+							</span>
+							<span class="settings_save">
+								<div style="padding: 20px;">
+									<i class="icon-floppy"></i>
+								</div>
+							</span>
+							<span class="settings_delete">
+								<div style="padding: 20px;">
+									<i class="icon-trash-empty"></i>
+								</div>
+							</span>
+							<span class="settings_scan">
+								<div style="padding: 20px;">
+									<i id="scanner" class="icon-spin3"></i>
+								</div>
+							</span>
+							<span class="settings_tune">
+								<div style="padding: 0px 20px 26px 20px;">
+									<i class="icon-minus-circled"></i>
+									<i class="icon-plus-circled"></i>
+								</div>
+							</span>
+							<span class="settings_freq">
+								<div style="padding: 10px;">
+									<span id="freq_s">00.0</div>
+								</div>
+							</span>
+							<span class="settings_mhz">
+								<div style="padding: 30px;">
+									MHz
+								</div>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="rdsbox">
+					<i class="icon-signal-1"></i>
+					<span class="rdstext"></span>
+					<i id="closed" class="icon-window-close-o"></i>
+				</div>
+				<div class="listbox">
+					<div class="chanells"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		$(document).ready(function() {
+			var statlist = [];
+			var bgtimer = null;
+			var bgcount = 0;
+			var maximg = 10;
+			var wsc = null;
+			var mode = false;
+			var mute = false;
+			var mono = false;
+			var scan = false;
+			var tune = true;
+			
+			var errorShow = function(x) {
+				$(".rdsbox").fadeIn("slow");
+				$(".rdstext").text(x);
+			}
+			var changeBg = function(x) {
+				if (x)
+					bgcount += 1;
+				else
+					bgcount -= 1;
+				bgcount = ((bgcount > maximg) ? 0 : ((bgcount < 0) ? maximg : bgcount));
+				$("body").css("background-image", "url(/bg/" + bgcount + ".webp)");
+			}
+			var changeBgTimer = function() {
+				if (bgtimer == null) {
+					bgtimer = setInterval(function () { changeBg(true); }, 90000);
+					return;
+				}
+				clearInterval(bgtimer);
+				bgtimer = null;
+			}
+			var isStations = function() {
+				return (statlist.length > 0);
+			}
+			var switchToSettings = function() {
+				$(".playbox").hide();
+				$(".setupbox").fadeIn( "slow" );
+			}
+			var paramConvert = function(x) {
+				return ((x) ? "+" : "-");
+			}
+			var normalizeFreq = function(x) {
+				return f = ((x > 10800) ? (x / 10) : x);
+			}
+			var sendToRadio = function(x) {
+				if (wsc == null) {
+					console.log("NOT CONNECTED RADIO, command: ", x);
+					return;
+				}
+				wsc.send(x);
+			}
+			var addStation = function(x) {
+				if (!x.hasOwnProperty("freq"))
+					return;
+				$(".chanells").slick(
+					"slickAdd",
+					"<div class=\"chanell\" data-freq=\"" + x.freq +
+					"\"><img src=\"/logo/" + ((x.hasOwnProperty("image")) ? x.image : x.freq) +
+					".gif\" />" + x.name + "</div>"
+				);
+			}
+			var getStationList = function() {
+				try {
+					$.getJSON("/json/Russia.Sainkt-Petersburg.json", {}).done(function(data) {
+						if (data == null) {
+							switchToSettings();
+							return;
+						}
+						statlist = data.freqs;
+						getFreqList();
+					})
+					.fail(function( jqxhr, txt, error ) {
+						errorShow(txt + ", " + error);
+						switchToSettings();
+					});
+
+				} catch(err) {
+					errorShow(err.message);
+				}
+			}
+			var getFreqList = function() {
+				try {
+					$.getJSON("/json/AutoScanList.json", {}).done(function(data) {
+
+						if (data == null) {
+							switchToSettings();
+							return;
+						}
+						if (!data.hasOwnProperty("freqs"))
+							return;
+						$(".chanells").slick("removeSlide", null, null, true);
+						$.each( data.freqs, function(i, f) {
+							var station = null;
+							var xmin = f - 10, xmax = f + 10;
+							$.each( statlist, function(n, st) {
+								var freq = normalizeFreq(st.freq);
+								if ((freq >= xmin) && (freq <= xmax)) {
+									station = st;
+									return false;
+								}
+							});
+							if (station == null)
+								station = {
+									freq: f,
+									name: "noting..",
+									image: "default"
+								};
+							addStation(station);
+							console.log('--getFreqList: ', f, station.name);
+						});
+					})
+					.fail(function( jqxhr, txt, error ) {
+						errorShow(txt + ", " + error);
+						switchToSettings();
+					});
+
+				} catch(err) {
+					errorShow(err.message);
+				}
+			}
+			var getFreqDefaultList = function() {
+				try {
+					if (statlist == null) {
+						switchToSettings();
+						return;
+					}
+					$(".chanells").slick("removeSlide", null, null, true);
+					$.each( statlist, function(i, station) {
+						addStation(station);
+					});
+				} catch(err) {
+					errorShow(err.message);
+				}
+			}
+			var radioReConnect = function() {
+				try {
+					// ToDo ...
+					
+				} catch(err) {
+					errorShow(err.message);
+				}
+			}
+			var setInfoBox = function(f) {
+				var found = false;
+				try {
+					var freq = ((f < 10000) ? (f * 10) : f);
+					$.each( statlist, function(n, station) {
+						var xmin = freq - 10, xmax = freq + 10;
+						if ((station.freq >= xmin) && (station.freq <= xmax)) {
+							$(".title").text(station.name);
+							$(".desc").text(station.desc);
+							$(".ximage").css("background-image", "url(/logo/" + station.freq + ".gif)");
+							found = true;
+							return false;
+						}
+					});
+
+				} catch(err) {
+					errorShow(err.message);
+				}
+				if (!found) {
+					$(".title").text("");
+					$(".desc").text("");
+					$(".ximage").css("background-image", "url(/logo/noimageavailable.gif)");
+				}
+			}
+
+			/*  begin init */
+
+			try {
+				wsc = new WebSocket('ws://' + location.hostname + ':81/', ['arduino']);
+				wsc.onerror = function (err) {
+					errorShow(err.message);
+				};
+				wsc.onmessage = function (e) {
+					if ((e.data == null) || (e.data.length < 2))
+						return;
+					if (e.data[0] == '#') {
+						switch(e.data[1]) {
+							case 'f': {
+								try {
+									var len1 = e.data.indexOf('|');
+									var s1 = e.data.substring(2, len1).trim();
+									var s2 = e.data.substring(len1 + 1, e.data.length).trim();
+									var len2 = s1.indexOf(' ');
+									var s3 = s1.substring(0, len2).trim();
+									$("#freq_p").text(s3);
+									$("#freq_s").text(s3);
+									$("#tune").slider("value", s2);
+									if ((!scan) || ((scan) && (!mode)))
+										setInfoBox(parseInt(s2));
+								} catch(err) {
+									errorShow(err.message);
+								}
+								break;
+							}
+							case 'i': {
+								errorShow(
+									"Found: " +
+									e.data.substring(2, e.data.length)
+								);
+								break;
+							}
+							case 'r': {
+								getStationList();
+								break;
+							}
+							case 'e': {
+								scan = false;
+								$("#scanner").removeClass("animate-spin");
+								getStationList();
+								$(".playbox").fadeIn( "slow" );
+								$(".setupbox").hide();
+								break;
+							}
+						}
+					}
+				};
+				wsc.onclose = function (e) {
+					if (e.wasClean) {
+						console.log("[close] Connection closed cleanly, code=", e.code, "reason=", e.reason);
+						errorShow(e.reason + " : " + e.code);
+					} else {
+						console.log("[close] Connection died");
+					}
+				};
+
+			} catch(err) {
+				errorShow(err.message);
+			}
+
+			try {
+				bgcount = Math.floor((Math.random() * maximg) + 1);
+				$("body").css("background-image", "url(/bg/" + bgcount + ".webp)");
+				changeBgTimer();
+			} catch(err) {
+				errorShow(err.message);
+			}
+
+			$(".chanells").slick({
+				slidesToShow: 5,
+				slidesToScroll: 3,
+				centerMode: true,
+				centerPadding: '40px',
+				autoplay: true,
+				autoplaySpeed: 8000,
+				dots: true,
+			});
+			$(document).on("click", ".chanell", function(e) {
+				try {
+					if (scan)
+						return;
+					var freq = normalizeFreq($(e.currentTarget).attr("data-freq"));
+					sendToRadio("#p" + freq);
+					if (statlist == null)
+						return;
+					setInfoBox(freq);
+
+				} catch(err) {
+					errorShow(err.message);
+				}
+			});
+			$("#tune").slider({
+				min: 7600,
+				max: 10800,
+				animate: "slow",
+				range: "min",
+				value: 7600,
+				slide : function(e, ui) {
+					sendToRadio("#p" + ui.value);
+				}
+			});
+			$("#toggler").on("click", function(e) {
+				mode = !mode;
+				if (mode) {
+					$(".playbox").hide();
+					$(".setupbox").fadeIn( "slow" );
+				} else {
+					$(".playbox").fadeIn( "slow" );
+					$(".setupbox").hide();
+				}
+			});
+			$("#scanner").on("click", function(e) {
+				if (!scan) {
+					scan = true;
+					$("#scanner").addClass("animate-spin");
+					$(".chanells").slick("removeSlide", null, null, true);
+					sendToRadio("#f");
+				}
+			});
+			$("#closed").on("click", function(e) {
+				$(".rdsbox").fadeOut("slow");
+			});
+			$("#favlist").on("click", function(e) {
+			});
+			$("#loadjson").on("click", function(e) {
+				getFreqDefaultList();
+			});
+			$("#autotune").on("click", function(e) {
+				if ((isStations()) && (!scan)) {
+					sendToRadio("#a");
+					tune = !true;
+					$("#autotune").css("color", ((tune) ? "aquamarine" : "brown"));
+				}
+			});
+			$("#bgprev").on("click", function(e) {
+				changeBg(false);
+			});
+			$("#bgnext").on("click", function(e) {
+				changeBg(true);
+			});
+			$("#bgpause").on("click", function(e) {
+				changeBgTimer();
+			});
+			$(".icon-fast-fw").on("click", function(e) {
+				if ((isStations()) && (!scan))
+					sendToRadio("#r+");
+			});
+			$(".icon-fast-bw").on("click", function(e) {
+				if ((isStations()) && (!scan))
+					sendToRadio("#r-");
+			});
+			$(".icon-pause").on("click", function(e) {
+				mute = !mute;
+				sendToRadio("#m" + paramConvert(mute));
+			});
+			$(".icon-heart").on("click", function(e) {
+				// ToDo: add to favarites
+			});
+			$(".icon-plus-circled").on("click", function(e) {
+				if (!scan)
+					sendToRadio("#t+");
+			});
+			$(".icon-minus-circled").on("click", function(e) {
+				if (!scan)
+					sendToRadio("#t-");
+			});
+			$(".icon-download").on("click", function(e) {
+				if (!scan)
+					sendToRadio("#u");
+			});
+			$(".icon-floppy").on("click", function(e) {
+				if (!scan) {
+					sendToRadio("#w");
+					getFreqList();
+				}
+			});
+			$(".icon-trash-empty").on("click", function(e) {
+				if (!scan) {
+					sendToRadio("#d");
+					getFreqList();
+				}
+			});
+			$(".icon-itunes").on("click", function(e) {
+				mono = !mono;
+				sendToRadio("#M" + paramConvert(mono));
+			});
+			$(".icon-volume-up").on("click", function(e) {
+				sendToRadio("#v+");
+			});
+			$(".icon-volume-down").on("click", function(e) {
+				sendToRadio("#v-");
+			});
+
+		});
+	</script>
+</html>
+
