@@ -1,6 +1,10 @@
-#define DBG_PRINT 1
-#define BMP280_ENABLE 1
-#define SSD1306_ENABLE 1
+#if !defined(__CONFIG_H)
+# define __CONFIG_H 1
+
+#define DEBUG 0
+#define NODEBUG_WEBSOCKETS 1
+#define EEPROM_STORE_ENABLE 0
+#define SERIAL_CMD_ENABLE 0
 
 #define STASSID "MYSSID"
 #define STAPSK  "12345678"
@@ -14,12 +18,20 @@
 
 #define FN__(A,B) A ## B
 #define FN_(A,B) FN__(A,B)
-#define UNIQUE_STRING(A) PROGMEM const char FN_(A,__LINE__)[]
+#define UNIQUE_PROGMEM(A) FN_(prn_,A)
 
-#if defined(DEBUG)
-#  define PRINTF(A, ...) Serial.printf(A, __VA_ARGS__)
-#else
+# if (defined(DEBUG) && (DEBUG == 1))
+#  define SERIAL_INIT() Serial.begin(115200)
+#  define PRINT(A) Serial.print(F(A))
+#  define PRINTF(A, ...) Serial.printf(A, __VA_ARGS__); Serial.flush()
+#  define PRINTLN(A) Serial.println(F(A)); Serial.flush()
+#  define PRINTWIFI() WiFi.printDiag(Serial)
+# else
+#  define SERIAL_INIT()
+#  define PRINT(A)
 #  define PRINTF(A, ...)
-#endif
+#  define PRINTLN(A)
+#  define PRINTWIFI()
+# endif
 
-  
+#endif

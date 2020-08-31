@@ -1,4 +1,10 @@
-#include <EEPROM.h>
+#if !defined(__RADIOCTRL_H)
+# define __RADIOCTRL_H 1
+
+#if (defined(EEPROM_STORE_ENABLE) && (EEPROM_STORE_ENABLE == 1))
+# include <EEPROM.h>
+#endif
+
 #define FREQ_MIN (uint16_t) 7600U
 #define FREQ_MAX (uint16_t) 10800U
 #define FREQ_INFO_SIZE 12
@@ -6,7 +12,7 @@
 void __impl_webSocketSendFreq(uint16_t);
 void __impl_webSocketSendCmd(const char*);
 
-typedef struct FREQJSON {
+typedef struct RADIOCTRL {
   private:
     TEA5767  *radio = NULL;
     uint16_t *arr = NULL;
@@ -101,10 +107,10 @@ typedef struct FREQJSON {
     uint16_t step = 5U, freq = FREQ_MIN, cursor = 0U;
     bool isScan = false;
     
-    ~FREQJSON() {
+    ~RADIOCTRL() {
       clear();
     }
-    FREQJSON(uint16_t cnt) {
+    RADIOCTRL(uint16_t cnt) {
       count = cnt;
       arr = new uint16_t[cnt];
     }
@@ -175,11 +181,13 @@ typedef struct FREQJSON {
       }
       file.print("]}\n");
       file.close();
+#     if (defined(EEPROM_STORE_ENABLE) && (EEPROM_STORE_ENABLE == 1))
       EEPROM.begin(4096);
       EEPROM.put(0, freq);
       EEPROM.put(2, freq_last);
       EEPROM.commit();
       EEPROM.end();
+#     endif      
     }
     void load(fs::File file) {
       if (!file) {
@@ -224,10 +232,14 @@ typedef struct FREQJSON {
         }
       }
       delete [] buff;
+
+#     if (defined(EEPROM_STORE_ENABLE) && (EEPROM_STORE_ENABLE == 1))
       EEPROM.begin(4096);
       freq = EEPROM.get(0, freq);
       freq_last = EEPROM.put(2, freq_last);
       EEPROM.end();
+#     endif      
+
       if (valid_frequency(freq)) {
         radio->setFrequency(freq);
         send_client();
@@ -261,7 +273,7 @@ typedef struct FREQJSON {
           radio->checkRDS();
         } while ((rds_block == 0U) && (wait_offset + 1200 > millis()));
 
-#       if defined(DEBUG)
+#       if (defined(DEBUG) && (DEBUG == 1))
         char *pdata = new char[FREQ_INFO_SIZE]{};
         radio->formatFrequency(pdata, FREQ_INFO_SIZE);
         PRINTF("Station -> [%u] %s, RSSI: %u, SNR: %u, RDS: %s, %s [%s]\n",
@@ -277,13 +289,19 @@ typedef struct FREQJSON {
       return true;
     }
     void printAll() {
+#     if (defined(DEBUG) && (DEBUG == 1))
       for (uint16_t i = 0; i < index; i++)
         PRINTF("Stored read = %u [%u]\n", arr[i], i);
+#     endif
     }
     void toString() {
+#     if (defined(DEBUG) && (DEBUG == 1))
       PRINTF("Debug: step=%u, index=%u, count=%u, cursor=%u, freq=%u\n",
         step, index, count, cursor, freq
       );
+#     endif
     }
 
-} FREQJSON;
+} RADIOCTRL;
+
+#endif
